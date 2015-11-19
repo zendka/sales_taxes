@@ -70,6 +70,7 @@ function sales_taxes_form_validate($form, &$form_state) {
 function sales_taxes_form_submit($form, &$form_state) {
   $shopping_list = sales_taxes_get_shopping_list($form_state['values']['shopping_basket']);
 
+  $message = sales_taxes_get_receipt($shopping_list);
   drupal_set_message("Here's your shopping list");
 }
 
@@ -82,4 +83,34 @@ function sales_taxes_form_submit($form, &$form_state) {
 function sales_taxes_get_shopping_list($shopping_basket) {
   preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
   return $matches[0];
+}
+
+function sales_taxes_get_receipt($shopping_list) {
+  $products = sales_taxes_extract_products($shopping_list);
+}
+
+
+/**
+ * Extract products from the shopping list
+ *
+ * @param  string $shopping_list Data about an individual product in the following format:
+ *                               [quantity] [product name] at [price]
+ * @return sales_taxes_product[] A list with the products
+ */
+function sales_taxes_extract_products($shopping_list) {
+  $products = [];
+
+  foreach ($shopping_list as $item) {
+    preg_match('/\d+/', $item, $match);
+    $quantity = $match[0];
+    preg_match('/\d+ ([\w ]+) at/', $item, $match);
+    $product_name = $match[1];
+    preg_match('/.+ at (\d+\.\d+)/', $item, $match);
+    $price = $match[1];
+
+    $product = new sales_taxes_product($product_name, $price);
+    $products[] = $product;
+  }
+
+  return $products;
 }
