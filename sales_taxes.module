@@ -52,10 +52,7 @@ function sales_taxes_form($form, &$form_state) {
  *   during processing.
  */
 function sales_taxes_form_validate($form, &$form_state) {
-  $shopping_basket = $form_state['values']['shopping_basket'];
-
-  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
-  $shopping_list = $matches[0];
+  $shopping_list = sales_taxes_get_shopping_list($form_state['values']['shopping_basket']);
   if (empty($shopping_list)) {
     form_set_error('shopping_basket', t('Please enter a valid Shopping basket'));
   }
@@ -71,10 +68,18 @@ function sales_taxes_form_validate($form, &$form_state) {
  *   during processing.
  */
 function sales_taxes_form_submit($form, &$form_state) {
-  $shopping_basket = $form_state['values']['shopping_basket'];
-
-  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
-  $shopping_list = $matches[0];
+  $shopping_list = sales_taxes_get_shopping_list($form_state['values']['shopping_basket']);
 
   drupal_set_message("Here's your shopping list");
+}
+
+/**
+ * Extract the shopping list
+ *
+ * @param  string $shopping_basket The shopping basket containing all items
+ * @return string[] A list with the individual items
+ */
+function sales_taxes_get_shopping_list($shopping_basket) {
+  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
+  return $matches[0];
 }
