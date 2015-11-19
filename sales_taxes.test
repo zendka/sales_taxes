@@ -8,27 +8,27 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     );
   }
 
-  function testSalesTaxOnA30DollarsCDis3() {
+  function testBasicSalesTaxOnA30DollarsCDis3() {
     // Given
     $product = 'CD';
     $price = 30;
 
     // Solution
-    $tax = 3;
+    $basic_sales_tax = 3;
 
     // Then
-    $this->assertEqual($tax, 3);
+    $this->assertEqual($basic_sales_tax, 3);
   }
 
-  function testSalesTaxOnA20DollarsBookis0() {
+  function testBasicSalesTaxOnA20DollarsBookis0() {
     // Given
     $product = 'book';
     $price = 20;
 
     // Solution
-    $tax = 0;
+    $basic_sales_tax = 0;
 
     // Then
-    $this->assertEqual($tax, 0);
+    $this->assertEqual($basic_sales_tax, 0);
   }
 }
