@@ -1,4 +1,7 @@
 <?php
+
+require_once('sales_taxes_product.inc');
+
 class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
   public static function getInfo() {
     return array(
@@ -51,5 +54,33 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
   function testTotalSalesTaxOnA47_50DollarsBookIs0() {
     $product = new sales_taxes_product('book', 47.50);
     $this->assertEqual($product->get_total_sales_tax(), 0);
+  }
+}
+
+/**
+ * Tests the functionality of the Simpletest example content type.
+ */
+class SalesTaxesWebTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+
+  public static function getInfo() {
+    // Note: getInfo() strings are not translated with t().
+    return array(
+      'name' => 'Sales Taxes web tests',
+      'description' => 'Test that the web form works properly',
+      'group' => 'Sales Taxes',
+    );
+  }
+
+  public function setUp() {
+    // Enable any modules required for the test.
+    parent::setUp(array('sales_taxes'));
+  }
+
+  public function testGivenExample() {
+    $edit['shopping_basket'] = '1 imported box of chocolates at 10.00 1 imported bottle of perfume at 47.50';
+
+    $this->drupalPost('sales_taxes', $edit, t('Get receipt'));
+    $this->assertText('1 imported box of chocolates: 10.50 1 imported bottle of perfume: 54.65 Sales taxes: 7.65 Total: 65.15');
   }
 }
