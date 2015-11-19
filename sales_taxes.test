@@ -14,7 +14,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $price = 30;
 
     // Solution
-    $basic_sales_tax = 3;
+    $basic_sales_tax = sales_taxes_get_basic_sales_tax($product, $price);
 
     // Then
     $this->assertEqual($basic_sales_tax, 3);
@@ -26,7 +26,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $price = 20;
 
     // Solution
-    $basic_sales_tax = 0;
+    $basic_sales_tax = sales_taxes_get_basic_sales_tax($product, $price);
 
     // Then
     $this->assertEqual($basic_sales_tax, 0);

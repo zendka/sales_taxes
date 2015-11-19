@@ -1,1 +1,10 @@
 <?php
+
+function sales_taxes_get_basic_sales_tax($product, $price) {
+  if (in_array($product, ['book', 'food', 'medical product'])) {
+    return 0;
+  }
+  else {
+    return $price / 10;
+  }
+}
