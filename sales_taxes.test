@@ -39,7 +39,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $imported = true;
 
     // Solution
-    $import_duty = 2;
+    $import_duty = sales_taxes_get_import_duty($price, $imported);
 
     // Then
     $this->assertEqual($import_duty, 2);
@@ -52,7 +52,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $imported = false;
 
     // Solution
-    $import_duty = 0;
+    $import_duty = sales_taxes_get_import_duty($price, $imported);
 
     // Then
     $this->assertEqual($import_duty, 0);

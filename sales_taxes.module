@@ -8,3 +8,12 @@ function sales_taxes_get_basic_sales_tax($product, $price) {
     return $price / 10;
   }
 }
+
+function sales_taxes_get_import_duty($price, $imported) {
+  if ($imported) {
+    return $price * .05;
+  }
+  else {
+    return 0;
+  }
+}
