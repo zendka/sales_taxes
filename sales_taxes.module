@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Get the basic sales tax
+ *
+ * @param  string $product the product name
+ * @param  float $price the pre sales tax price
+ * @return float the resulting basic sales tax
+ */
 function sales_taxes_get_basic_sales_tax($product, $price) {
   if (in_array($product, ['book', 'food', 'medical product'])) {
     return 0;
@@ -9,6 +16,13 @@ function sales_taxes_get_basic_sales_tax($product, $price) {
   }
 }
 
+/**
+ * Get the import duty
+ *
+ * @param  string $product the product name
+ * @param  bool $imported is true if the product is imported, false otherwise
+ * @return float the resulting import duty
+ */
 function sales_taxes_get_import_duty($price, $imported) {
   if ($imported) {
     return $price * .05;
@@ -18,6 +32,14 @@ function sales_taxes_get_import_duty($price, $imported) {
   }
 }
 
+/**
+ * Get the total sales tax
+ *
+ * @param  string $product the product name
+ * @param  float $price the pre sales tax price
+ * @param  bool $imported is true if the product is imported, false otherwise
+ * @return float the resulting sales tax
+ */
 function sales_taxes_get_total_sales_tax($product, $price, $imported) {
   return sales_taxes_get_basic_sales_tax($product, $price) + sales_taxes_get_import_duty($price, $imported);
 }
