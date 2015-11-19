@@ -14,7 +14,7 @@ class sales_taxes_product {
    * the product name
    * @var string
    */
-  private $product;
+  private $name;
 
   /**
    * the pre sales tax price
@@ -35,8 +35,8 @@ class sales_taxes_product {
    * @param float $price the pre sales tax price
    * @param bool $imported the import status of the product: true if imported, false otherwise
    */
-  public function __construct($product, $price, $imported = false) {
-    $this->product = $product;
+  public function __construct($product_name, $price, $imported = false) {
+    $this->name = $product_name;
     $this->price = $price;
     $this->imported = $imported;
   }
@@ -49,7 +49,7 @@ class sales_taxes_product {
   public function get_basic_sales_tax() {
     $exempt_products = ['book', 'food', 'medical product', 'box of chocolates', 'chocolate bar'];
 
-    if (in_array($this->product, $exempt_products)) {
+    if (in_array($this->name, $exempt_products)) {
       $tax = 0;
     }
     else {
