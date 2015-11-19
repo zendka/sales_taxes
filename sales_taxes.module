@@ -26,6 +26,14 @@ function sales_taxes_menu() {
  */
 function sales_taxes_form($form, &$form_state) {
 
+ $form['shopping_basket'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Your shopping basket',
+    '#size' => 100,
+    '#maxlength' => 1000,
+    '#required' => TRUE,
+  );
+
   $form['submit_button'] = array(
     '#type' => 'submit',
     '#value' => t('Get receipt'),
