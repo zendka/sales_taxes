@@ -47,7 +47,7 @@ class sales_taxes_product {
    * @return float the resulting basic sales tax
    */
   public function get_basic_sales_tax() {
-    $exempt_products = ['book', 'food', 'medical product'];
+    $exempt_products = ['book', 'food', 'medical product', 'box of chocolates', 'chocolate bar'];
 
     if (in_array($this->product, $exempt_products)) {
       $tax = 0;
