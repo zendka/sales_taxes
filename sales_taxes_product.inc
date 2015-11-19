@@ -26,7 +26,7 @@ class sales_taxes_product {
    * the import status of the product: true if imported, false otherwise
    * @var bool
    */
-  private $imported;
+  public $imported;
 
   /**
    * the number of items

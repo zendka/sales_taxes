@@ -86,7 +86,8 @@ function sales_taxes_get_receipt($shopping_list) {
   $output = '';
 
   foreach($products as $product) {
-    $output .= $product->quantity . ' ' . $product->name . ': ' . $product->get_total_price() . ' ';
+    $imported = $product->imported ? ' imported ' : ' ';
+    $output .= $product->quantity . $imported . $product->name . ': ' . $product->get_total_price() . ' ';
     $sales_tax += $product->quantity * $product->get_total_sales_tax();
     $total += $product->quantity * $product->get_total_price();
   }
@@ -104,7 +105,7 @@ function sales_taxes_get_receipt($shopping_list) {
  * @return string[] A list with the individual items
  */
 function sales_taxes_get_shopping_list($shopping_basket) {
-  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
+  preg_match_all('/\d+ [imported ]*[\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
   return $matches[0];
 }
 
@@ -121,12 +122,14 @@ function sales_taxes_extract_products($shopping_list) {
   foreach ($shopping_list as $item) {
     preg_match('/\d+/', $item, $match);
     $quantity = $match[0];
-    preg_match('/\d+ ([\w ]+) at/', $item, $match);
+    preg_match('/\d+ ([imported ]*)[\w ]+ at/', $item, $match);
+    $imported = !empty($match[1]);
+    preg_match('/\d+ [imported ]*([\w ]+) at/', $item, $match);
     $product_name = $match[1];
     preg_match('/.+ at (\d+\.\d+)/', $item, $match);
     $price = $match[1];
 
-    $product = new sales_taxes_product($product_name, $price, false, $quantity);
+    $product = new sales_taxes_product($product_name, $price, $imported, $quantity);
     $products[] = $product;
   }
 
