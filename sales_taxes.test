@@ -96,4 +96,17 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     // Then
     $this->assertEqual($total_sales_tax, 4);
   }
+
+  function testTotalSalesTaxOnA47_50DollarsImportedCDis54_65() {
+    // Given
+    $product = 'CD';
+    $price = 47.50;
+    $imported = true;
+
+    // Solution
+    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
+
+    // Then
+    $this->assertEqual($total_sales_tax, "7.15");
+  }
 }
