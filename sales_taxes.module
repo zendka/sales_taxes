@@ -41,11 +41,8 @@ function sales_taxes_form($form, &$form_state) {
 /**
  * Implements validation using the Form API.
  *
- * @param $form
- *   A structured array containing the elements and properties of the form.
- * @param $form_state
- *   An array that stores information about the form's current state
- *   during processing.
+ * @param $form A structured array containing the elements and properties of the form.
+ * @param $form_state An array that stores information about the form's current state during processing.
  */
 function sales_taxes_form_validate($form, &$form_state) {
   $products = sales_taxes_extract_products($form_state['values']['shopping_basket']);
@@ -57,11 +54,8 @@ function sales_taxes_form_validate($form, &$form_state) {
 /**
  * Implements submission using the Form API.
  *
- * @param $form
- *   A structured array containing the elements and properties of the form.
- * @param $form_state
- *   An array that stores information about the form's current state
- *   during processing.
+ * @param $form A structured array containing the elements and properties of the form.
+ * @param $form_state An array that stores information about the form's current state during processing.
  */
 function sales_taxes_form_submit($form, &$form_state) {
   $products = sales_taxes_extract_products($form_state['values']['shopping_basket']);
@@ -104,7 +98,7 @@ function sales_taxes_get_receipt($products) {
 }
 
 /**
- * Extract products form the Shopping basket.
+ * Extracts products form the Shopping basket.
  *
  * @param  string $shopping_basket The shopping basket. It has the following format:
  *         '1 imported box of chocolates at 10.00 1 imported bottle of perfume at 47.50'
