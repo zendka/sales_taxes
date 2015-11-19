@@ -71,7 +71,7 @@ function sales_taxes_form_submit($form, &$form_state) {
   $shopping_list = sales_taxes_get_shopping_list($form_state['values']['shopping_basket']);
 
   $message = sales_taxes_get_receipt($shopping_list);
-  drupal_set_message("Here's your shopping list");
+  drupal_set_message($message);
 }
 
 /**
@@ -87,6 +87,20 @@ function sales_taxes_get_shopping_list($shopping_basket) {
 
 function sales_taxes_get_receipt($shopping_list) {
   $products = sales_taxes_extract_products($shopping_list);
+  $sales_tax = 0;
+  $total = 0;
+  $output = '';
+
+  foreach($products as $product) {
+    $output .= $product->quantity . ' ' . $product->name . ': ' . $product->get_total_price() . ' ';
+    $sales_tax += $product->quantity * $product->get_total_sales_tax();
+    $total += $product->quantity * $product->get_total_price();
+  }
+
+  $output .= 'Sales taxes: ' . number_format($sales_tax, 2);
+  $output .= ' Total: ' . number_format($total, 2);
+
+  return $output;
 }
 
 /**
