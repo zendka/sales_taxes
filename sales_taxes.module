@@ -89,7 +89,6 @@ function sales_taxes_get_receipt($shopping_list) {
   $products = sales_taxes_extract_products($shopping_list);
 }
 
-
 /**
  * Extract products from the shopping list
  *
