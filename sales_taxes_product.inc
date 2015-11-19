@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file
+ * Contains sales_taxes_product
+ */
+
+/**
+ * Handles product sales tax
+ */
 class sales_taxes_product {
 
   /**
