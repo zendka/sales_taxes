@@ -41,3 +41,22 @@ function sales_taxes_form($form, &$form_state) {
 
   return $form;
 }
+
+/**
+ * Implements validation from the Form API.
+ *
+ * @param $form
+ *   A structured array containing the elements and properties of the form.
+ * @param $form_state
+ *   An array that stores information about the form's current state
+ *   during processing.
+ */
+function sales_taxes_form_validate($form, &$form_state) {
+  $shopping_basket = $form_state['values']['shopping_basket'];
+
+  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
+  $shopping_list = $matches[0];
+  if (empty($shopping_list)) {
+    form_set_error('shopping_basket', t('Please enter a valid Shopping basket'));
+  }
+}
