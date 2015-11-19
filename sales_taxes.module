@@ -1,1 +1,35 @@
 <?php
+
+/**
+ * Implements hook_menu().
+ */
+function sales_taxes_menu() {
+  $items = array();
+
+  $items['sales_taxes'] = array(
+    'title' => 'Sales Taxes',
+    'description' => 'Displays the receipt details for a shopping basket',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('sales_taxes_form'),
+    'access callback' => TRUE
+  );
+
+  return $items;
+}
+
+/**
+ * Form for a receipt
+ *
+ * See Form API.
+ *
+ * @return mixed[] a Form API array to be processed by drupal_get_form().
+ */
+function sales_taxes_form($form, &$form_state) {
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Get receipt'),
+  );
+
+  return $form;
+}
