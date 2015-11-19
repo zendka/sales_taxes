@@ -57,9 +57,6 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
   }
 }
 
-/**
- * Tests the functionality of the Simpletest example content type.
- */
 class SalesTaxesWebTestCase extends DrupalWebTestCase {
   protected $privileged_user;
 
