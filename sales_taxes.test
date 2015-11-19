@@ -9,117 +9,47 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
   }
 
   function testBasicSalesTaxOnA30DollarsCDis3() {
-    // Given
-    $product = 'CD';
-    $price = 30;
-
-    // Solution
-    $basic_sales_tax = sales_taxes_get_basic_sales_tax($product, $price);
-
-    // Then
-    $this->assertEqual($basic_sales_tax, 3);
+    $product = new sales_taxes_product('CD', 30);
+    $this->assertEqual($product->get_basic_sales_tax(), 3);
   }
 
   function testBasicSalesTaxOnA20DollarsBookis0() {
-    // Given
-    $product = 'book';
-    $price = 20;
-
-    // Solution
-    $basic_sales_tax = sales_taxes_get_basic_sales_tax($product, $price);
-
-    // Then
-    $this->assertEqual($basic_sales_tax, 0);
+    $product = new sales_taxes_product('book', 20);
+    $this->assertEqual($product->get_basic_sales_tax(), 0);
   }
 
   function testImportDutyOnA40DollarsImportedCDis2() {
-    // Given
-    $product = 'CD';
-    $price = 40;
-    $imported = true;
-
-    // Solution
-    $import_duty = sales_taxes_get_import_duty($price, $imported);
-
-    // Then
-    $this->assertEqual($import_duty, 2);
+    $product = new sales_taxes_product('CD', 40, true);
+    $this->assertEqual($product->get_import_duty(), 2);
   }
 
   function testImportDutyOnA40DollarsCDis0() {
-    // Given
-    $product = 'CD';
-    $price = 40;
-    $imported = false;
-
-    // Solution
-    $import_duty = sales_taxes_get_import_duty($price, $imported);
-
-    // Then
-    $this->assertEqual($import_duty, 0);
+    $product = new sales_taxes_product('CD', 40);
+    $this->assertEqual($product->get_import_duty(), 0);
   }
 
   function testTotalSalesTaxOnA40DollarsImportedCDis6() {
-    // Given
-    $product = 'CD';
-    $price = 40;
-    $imported = true;
-
-    // Solution
-    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
-
-    // Then
-    $this->assertEqual($total_sales_tax, 6);
+    $product = new sales_taxes_product('CD', 40, true);
+    $this->assertEqual($product->get_total_sales_tax(), 6);
   }
 
   function testTotalSalesTaxOnA40DollarsImportedBookIs2() {
-    // Given
-    $product = 'book';
-    $price = 40;
-    $imported = true;
-
-    // Solution
-    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
-
-    // Then
-    $this->assertEqual($total_sales_tax, 2);
+    $product = new sales_taxes_product('book', 40, true);
+    $this->assertEqual($product->get_total_sales_tax(), 2);
   }
 
   function testTotalSalesTaxOnA40DollarsCDis4() {
-    // Given
-    $product = 'CD';
-    $price = 40;
-    $imported = false;
-
-    // Solution
-    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
-
-    // Then
-    $this->assertEqual($total_sales_tax, 4);
+    $product = new sales_taxes_product('CD', 40);
+    $this->assertEqual($product->get_total_sales_tax(), 4);
   }
 
   function testTotalSalesTaxOnA47_50DollarsImportedCDis54_65() {
-    // Given
-    $product = 'CD';
-    $price = 47.50;
-    $imported = true;
-
-    // Solution
-    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
-
-    // Then
-    $this->assertEqual($total_sales_tax, "7.15");
+    $product = new sales_taxes_product('CD', 47.50, true);
+    $this->assertEqual($product->get_total_sales_tax(), '7.15');
   }
 
   function testTotalSalesTaxOnA47_50DollarsBookIs0() {
-    // Given
-    $product = 'book';
-    $price = 47.50;
-    $imported = false;
-
-    // Solution
-    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
-
-    // Then
-    $this->assertEqual($total_sales_tax, 0);
+    $product = new sales_taxes_product('book', 47.50);
+    $this->assertEqual($product->get_total_sales_tax(), 0);
   }
 }
