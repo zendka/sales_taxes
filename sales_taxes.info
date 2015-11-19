@@ -1,3 +1,4 @@
 name = Sales Taxes
 description = Displays the receipt details for shopping baskets
 core = 7.x
+files[] = sales_taxes.test

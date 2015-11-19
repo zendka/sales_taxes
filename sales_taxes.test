@@ -1,0 +1,10 @@
+<?php
+class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Sales Taxes unit tests',
+      'description' => 'Test that the core logic works properly',
+      'group' => 'Sales Taxes',
+    );
+  }
+}
