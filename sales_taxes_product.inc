@@ -29,16 +29,24 @@ class sales_taxes_product {
   private $imported;
 
   /**
+   * the number of items
+   * @var int
+   */
+  private $quantity;
+
+  /**
    * Constructor
    *
    * @param string $product the product name
    * @param float $price the pre sales tax price
    * @param bool $imported the import status of the product: true if imported, false otherwise
+   * @param int $quantity the number of items
    */
-  public function __construct($product_name, $price, $imported = false) {
+  public function __construct($product_name, $price, $imported = false, $quantity = 1) {
     $this->name = $product_name;
     $this->price = $price;
     $this->imported = $imported;
+    $this->quantity = $quantity;
   }
 
   /**
