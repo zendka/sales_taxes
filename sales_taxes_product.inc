@@ -20,7 +20,7 @@ class sales_taxes_product {
    * the pre sales tax price
    * @var float
    */
-  private $price;
+  public $price;
 
   /**
    * the import status of the product: true if imported, false otherwise
@@ -106,17 +106,7 @@ class sales_taxes_product {
       return $n;
     }
     else {
-      return sprintf("%.2f", $n + (.05- fmod($n, .05)));
+      return $n + .05 - fmod($n, .05);
     }
-  }
-
-  /**
-   * Get the total price
-   *
-   * @return float the resulting sales tax
-   */
-  public function get_total_price() {
-    $total_price = $this->price + $this->get_total_sales_tax();
-    return number_format($total_price, 2);
   }
 }
