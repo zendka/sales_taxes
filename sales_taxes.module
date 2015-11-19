@@ -70,21 +70,15 @@ function sales_taxes_form_validate($form, &$form_state) {
 function sales_taxes_form_submit($form, &$form_state) {
   $shopping_list = sales_taxes_get_shopping_list($form_state['values']['shopping_basket']);
 
-  $message = sales_taxes_get_receipt($shopping_list);
-  drupal_set_message($message);
+  drupal_set_message(sales_taxes_get_receipt($shopping_list));
 }
 
 /**
- * Extract the shopping list
+ * Get the receipt
  *
- * @param  string $shopping_basket The shopping basket containing all items
- * @return string[] A list with the individual items
+ * @param  string[] $shopping_list the list with products data in the specified format
+ * @return string the receipt in the expected format
  */
-function sales_taxes_get_shopping_list($shopping_basket) {
-  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
-  return $matches[0];
-}
-
 function sales_taxes_get_receipt($shopping_list) {
   $products = sales_taxes_extract_products($shopping_list);
   $sales_tax = 0;
@@ -101,6 +95,17 @@ function sales_taxes_get_receipt($shopping_list) {
   $output .= ' Total: ' . number_format($total, 2);
 
   return $output;
+}
+
+/**
+ * Extract the shopping list
+ *
+ * @param  string $shopping_basket The shopping basket containing all items
+ * @return string[] A list with the individual items
+ */
+function sales_taxes_get_shopping_list($shopping_basket) {
+  preg_match_all('/\d+ [\w ]+ at \d+\.\d+[ ]*/', $shopping_basket, $matches);
+  return $matches[0];
 }
 
 /**
