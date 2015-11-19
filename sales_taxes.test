@@ -25,6 +25,9 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $product = 'book';
     $price = 20;
 
+    // Solution
+    $tax = 0;
+
     // Then
     $this->assertEqual($tax, 0);
   }
