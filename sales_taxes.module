@@ -108,7 +108,7 @@ function sales_taxes_extract_products($shopping_list) {
     preg_match('/.+ at (\d+\.\d+)/', $item, $match);
     $price = $match[1];
 
-    $product = new sales_taxes_product($product_name, $price);
+    $product = new sales_taxes_product($product_name, $price, false, $quantity);
     $products[] = $product;
   }
 
