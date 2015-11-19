@@ -65,7 +65,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $imported = true;
 
     // Solution
-    $total_sales_tax = 6;
+    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
 
     // Then
     $this->assertEqual($total_sales_tax, 6);
@@ -78,7 +78,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $imported = true;
 
     // Solution
-    $total_sales_tax = 2;
+    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
 
     // Then
     $this->assertEqual($total_sales_tax, 2);
@@ -91,7 +91,7 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $imported = false;
 
     // Solution
-    $total_sales_tax = 4;
+    $total_sales_tax = sales_taxes_get_total_sales_tax($product, $price, $imported);
 
     // Then
     $this->assertEqual($total_sales_tax, 4);

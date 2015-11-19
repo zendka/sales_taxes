@@ -17,3 +17,7 @@ function sales_taxes_get_import_duty($price, $imported) {
     return 0;
   }
 }
+
+function sales_taxes_get_total_sales_tax($product, $price, $imported) {
+  return sales_taxes_get_basic_sales_tax($product, $price) + sales_taxes_get_import_duty($price, $imported);
+}
