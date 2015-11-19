@@ -14,7 +14,7 @@ class sales_taxes_product {
    * the product name
    * @var string
    */
-  private $name;
+  public $name;
 
   /**
    * the pre sales tax price
@@ -32,7 +32,7 @@ class sales_taxes_product {
    * the number of items
    * @var int
    */
-  private $quantity;
+  public $quantity;
 
   /**
    * Constructor
