@@ -1,31 +1,60 @@
 <?php
 
+class sales_taxes_product {
+
+/**
+ * the product name
+ * @var string
+ */
+private $product;
+
+/**
+ * the pre sales tax price
+ * @var float
+ */
+private $price;
+
+/**
+ * the import status of the product: true if imported, false otherwise
+ * @var bool
+ */
+private $imported;
+
+/**
+ * Constructor
+ *
+ * @param string $product the product name
+ * @param float $price the pre sales tax price
+ * @param bool $imported the import status of the product: true if imported, false otherwise
+ */
+public function __construct($product, $price, $imported = false) {
+  $this->product = $product;
+  $this->price = $price;
+  $this->imported = $imported;
+}
+
 /**
  * Get the basic sales tax
  *
- * @param  string $product the product name
- * @param  float $price the pre sales tax price
  * @return float the resulting basic sales tax
  */
-function sales_taxes_get_basic_sales_tax($product, $price) {
-  if (in_array($product, ['book', 'food', 'medical product'])) {
+public function get_basic_sales_tax() {
+  if (in_array($this->product, ['book', 'food', 'medical product'])) {
     return 0;
   }
   else {
-    return $price / 10;
+    return $this->price / 10;
   }
 }
 
 /**
  * Get the import duty
  *
- * @param  string $product the product name
- * @param  bool $imported is true if the product is imported, false otherwise
  * @return float the resulting import duty
  */
-function sales_taxes_get_import_duty($price, $imported) {
-  if ($imported) {
-    return $price * .05;
+public function get_import_duty() {
+  if ($this->imported) {
+    return $this->price * .05;
   }
   else {
     return 0;
@@ -35,27 +64,25 @@ function sales_taxes_get_import_duty($price, $imported) {
 /**
  * Get the total sales tax
  *
- * @param  string $product the product name
- * @param  float $price the pre sales tax price
- * @param  bool $imported is true if the product is imported, false otherwise
  * @return float the resulting sales tax
  */
-function sales_taxes_get_total_sales_tax($product, $price, $imported) {
-  $total_tax = sales_taxes_get_basic_sales_tax($product, $price) + sales_taxes_get_import_duty($price, $imported);
-  return sales_taxes_get_rounded_up_to_0_05($total_tax);
+public function get_total_sales_tax() {
+  $total_tax = $this->get_basic_sales_tax() + $this->get_import_duty();
+  return $this->get_rounded_up_to_0_05($total_tax);
 }
 
 /**
  * Get the rounded up value to the nearest 0.05
  *
  * @param  float $n
- * @return string a string representing the number with two decimal precision
+ * @return string the string representing the number with two decimal precision
  */
-function sales_taxes_get_rounded_up_to_0_05($n) {
+private function get_rounded_up_to_0_05($n) {
   if (fmod($n, .05) == 0) {
     return $n;
   }
   else {
     return sprintf("%.2f", $n + (.05- fmod($n, .05)));
   }
+}
 }
