@@ -7,4 +7,13 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
       'group' => 'Sales Taxes',
     );
   }
+
+  function testSalesTaxOnA30DollarsCDis3() {
+    // Given
+    $product = 'CD';
+    $price = 30;
+
+    // Then
+    $this->assertEqual($tax, 3);
+  }
 }
