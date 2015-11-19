@@ -41,5 +41,21 @@ function sales_taxes_get_import_duty($price, $imported) {
  * @return float the resulting sales tax
  */
 function sales_taxes_get_total_sales_tax($product, $price, $imported) {
-  return sales_taxes_get_basic_sales_tax($product, $price) + sales_taxes_get_import_duty($price, $imported);
+  $total_tax = sales_taxes_get_basic_sales_tax($product, $price) + sales_taxes_get_import_duty($price, $imported);
+  return sales_taxes_get_rounded_up_to_0_05($total_tax);
+}
+
+/**
+ * Get the rounded up value to the nearest 0.05
+ *
+ * @param  float $n
+ * @return string a string representing the number with two decimal precision
+ */
+function sales_taxes_get_rounded_up_to_0_05($n) {
+  if (fmod($n, .05) == 0) {
+    return $n;
+  }
+  else {
+    return sprintf("%.2f", $n + (.05- fmod($n, .05)));
+  }
 }
