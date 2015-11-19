@@ -38,13 +38,18 @@ class sales_taxes_product {
    *
    * @return float the resulting basic sales tax
    */
-  public function   get_basic_sales_tax() {
-    if (in_array($this->product, ['book', 'food', 'medical product'])) {
-      return 0;
+  public function get_basic_sales_tax() {
+    $exempt_products = ['book', 'food', 'medical product'];
+
+    if (in_array($this->product, $exempt_products)) {
+      $tax = 0;
     }
     else {
-      return $this->price / 10;
+      // Tax is 10%
+      $tax = $this->price * 0.10;
     }
+
+    return $tax;
   }
 
   /**
@@ -54,11 +59,14 @@ class sales_taxes_product {
    */
   public function get_import_duty() {
     if ($this->imported) {
-      return $this->price * .05;
+      // Tax is 5%
+      $tax = $this->price * .05;
     }
     else {
-      return 0;
+      $tax = 0;
     }
+
+    return $tax;
   }
 
   /**
