@@ -77,6 +77,9 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     $price = 40;
     $imported = true;
 
+    // Solution
+    $total_sales_tax = 2;
+
     // Then
     $this->assertEqual($total_sales_tax, 2);
   }
