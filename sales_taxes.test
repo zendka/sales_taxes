@@ -31,4 +31,14 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     // Then
     $this->assertEqual($basic_sales_tax, 0);
   }
+
+  function testImportDutyOnA40DollarsImportedCDis2() {
+    // Given
+    $product = 'CD';
+    $price = 40;
+    $imported = true;
+
+    // Then
+    $this->assertEqual($import_duty, 2);
+  }
 }
