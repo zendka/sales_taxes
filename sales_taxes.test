@@ -19,4 +19,13 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
     // Then
     $this->assertEqual($tax, 3);
   }
+
+  function testSalesTaxOnA20DollarsBookis0() {
+    // Given
+    $product = 'book';
+    $price = 20;
+
+    // Then
+    $this->assertEqual($tax, 0);
+  }
 }
