@@ -11,6 +11,24 @@
 class sales_taxes_product {
 
   /**
+   * products exempt from the basic sales tax
+   * @var [string]
+   */
+  public static $EXEMPT_PRODUCTS = ['book', 'food', 'medical product', 'box of chocolates', 'chocolate bar'];
+
+  /**
+   * the basic sales tax
+   * it only applies to all goods that are not exempt
+   */
+  const BASIC_SALES_TAX = .10; // 10%
+
+  /**
+   * the import duty sales tax
+   * it only applies to imported goods.
+   */
+  const IMPORT_DUTY = .05; // 5%
+
+  /**
    * the product name
    * @var string
    */
@@ -52,25 +70,23 @@ class sales_taxes_product {
   /**
    * Get the basic sales tax
    *
-   * The basic sales tax is 0 for exempt products and 10% for the rest.
+   * The basic sales tax is 0 for exempt products and self::BASIC_SALES_TAX for the rest.
    *
    * @return float the resulting basic sales tax
    */
   public function get_basic_sales_tax() {
-    $exempt_products = ['book', 'food', 'medical product', 'box of chocolates', 'chocolate bar'];
-
-    return in_array($this->name, $exempt_products) ? 0 : $this->price * 0.10;
+    return in_array($this->name, self::$EXEMPT_PRODUCTS) ? 0 : $this->price * self::BASIC_SALES_TAX;
   }
 
   /**
    * Get the import duty
    *
-   * The import duty tax is 5% and only applies to impoted products.
+   * The import duty tax only applies to impoted products and its amount is self::IMPORT_DUTY
    *
    * @return float the resulting import duty
    */
   public function get_import_duty() {
-    return $this->imported ? $this->price * .05 : 0;
+    return $this->imported ? $this->price * self::IMPORT_DUTY : 0;
   }
 
   /**
