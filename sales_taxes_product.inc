@@ -52,37 +52,25 @@ class sales_taxes_product {
   /**
    * Get the basic sales tax
    *
+   * The basic sales tax is 0 for exempt products and 10% for the rest.
+   *
    * @return float the resulting basic sales tax
    */
   public function get_basic_sales_tax() {
     $exempt_products = ['book', 'food', 'medical product', 'box of chocolates', 'chocolate bar'];
 
-    if (in_array($this->name, $exempt_products)) {
-      $tax = 0;
-    }
-    else {
-      // Tax is 10%
-      $tax = $this->price * 0.10;
-    }
-
-    return $tax;
+    return in_array($this->name, $exempt_products) ? 0 : $this->price * 0.10;
   }
 
   /**
    * Get the import duty
    *
+   * The import duty tax is 5% and only applies to impoted products.
+   *
    * @return float the resulting import duty
    */
   public function get_import_duty() {
-    if ($this->imported) {
-      // Tax is 5%
-      $tax = $this->price * .05;
-    }
-    else {
-      $tax = 0;
-    }
-
-    return $tax;
+    return $this->imported ? $this->price * .05 : 0;
   }
 
   /**
