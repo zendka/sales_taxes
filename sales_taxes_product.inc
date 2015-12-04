@@ -103,14 +103,9 @@ class sales_taxes_product {
    * Get the rounded up value to the nearest 0.05
    *
    * @param  float $n
-   * @return string the string representing the number with two decimal precision
+   * @return float
    */
   private function get_rounded_up_to_0_05($n) {
-    if (fmod($n, .05) == 0) {
-      return $n;
-    }
-    else {
-      return $n + .05 - fmod($n, .05);
-    }
+    return round($n * 2, 1) / 2;
   }
 }
