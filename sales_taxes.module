@@ -24,7 +24,7 @@ function sales_taxes_form($form, &$form_state) {
 
  $form['shopping_basket'] = array(
     '#type' => 'textfield',
-    '#title' => 'Your shopping basket',
+    '#title' => t('Your shopping basket'),
     '#size' => 100,
     '#maxlength' => 1000,
     '#required' => TRUE,
@@ -77,12 +77,12 @@ function sales_taxes_get_receipt($products) {
   $receipt = '';
 
   foreach($products as $product) {
-    $receipt .= $product->quantity . ' ';
-    if ($product->imported) {
-      $receipt .= 'imported ';
-    }
-    $receipt .= $product->name . ': ';
-    $receipt .= number_format($product->price + $product->get_total_sales_tax(), 2) . ' ';
+    $receipt .= t("@quantity @imported@product_name: @total_price ", array(
+      '@quantity' => $product->quantity,
+      '@imported' => $product->imported ? 'imported ': '',
+      '@product_name' => $product->name,
+      '@total_price' => number_format($product->price + $product->get_total_sales_tax(), 2),
+    ));
   }
 
   $sales_tax = 0;
