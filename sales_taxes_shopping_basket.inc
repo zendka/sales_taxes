@@ -5,6 +5,8 @@
  * Contains sales_taxes_shopping_basket
  */
 
+require_once('sales_taxes_calculator.inc');
+
 /**
  * Shopping Basket with products
  */
@@ -55,7 +57,7 @@ class sales_taxes_shopping_basket {
   private function get_sales_taxes() {
     $sales_taxes = [];
     for ($i=0; $i<sizeof($this->products); $i++) {
-      $sales_taxes[$i] = sales_taxes_calculator::get_total_sales_tax($this->products[$i]) * $this->quantities[$i];
+      $sales_taxes[$i] = \Zendka\sales_taxes\get_total_sales_tax($this->products[$i]) * $this->quantities[$i];
     }
 
     return $sales_taxes;
