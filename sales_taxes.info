@@ -3,3 +3,5 @@ description = Displays the receipt details for shopping baskets
 core = 7.x
 files[] = sales_taxes.test
 files[] = sales_taxes_product.inc
+files[] = sales_taxes_shopping_basket.inc
+files[] = sales_taxes_calculator.inc

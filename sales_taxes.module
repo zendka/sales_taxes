@@ -45,8 +45,8 @@ function sales_taxes_form($form, &$form_state) {
  * @param $form_state An array that stores information about the form's current state during processing.
  */
 function sales_taxes_form_validate($form, &$form_state) {
-  $products = sales_taxes_extract_products($form_state['values']['shopping_basket']);
-  if (empty($products)) {
+  $shopping_basket = _sales_taxes_extract_shopping_basket($form_state['values']['shopping_basket']);
+  if (empty($shopping_basket)) {
     form_set_error('shopping_basket', t('Please enter a valid Shopping basket'));
   }
 }
@@ -58,66 +58,31 @@ function sales_taxes_form_validate($form, &$form_state) {
  * @param $form_state An array that stores information about the form's current state during processing.
  */
 function sales_taxes_form_submit($form, &$form_state) {
-  $products = sales_taxes_extract_products($form_state['values']['shopping_basket']);
+  $shopping_basket = _sales_taxes_extract_shopping_basket($form_state['values']['shopping_basket']);
 
-  drupal_set_message(sales_taxes_get_receipt($products));
+  drupal_set_message($shopping_basket->get_receipt());
 }
 
 /**
- * Gets the receipt.
+ * Extracts shopping basket data from input.
  *
- * Puts together the receipt for the given products.
- * It has the following format:
- * 1 imported box of chocolates: 10.50 1 imported bottle of perfume: 54.65 Sales Taxes: 7.65 Total: 65.15
- *
- * @param  sales_taxes_product[] $products The products
- * @return string the receipt in the specific format
- */
-function sales_taxes_get_receipt($products) {
-  $receipt = '';
-
-  foreach($products as $product) {
-    $receipt .= t("@quantity @imported@product_name: @total_price ", array(
-      '@quantity' => $product->quantity,
-      '@imported' => $product->imported ? 'imported ': '',
-      '@product_name' => $product->name,
-      '@total_price' => number_format($product->price + $product->get_total_sales_tax(), 2),
-    ));
-  }
-
-  $sales_tax = 0;
-  $total = 0;
-  foreach($products as $product) {
-    $sales_tax += $product->quantity * $product->get_total_sales_tax();
-    $total     += $product->quantity * ($product->price + $product->get_total_sales_tax());
-  }
-  $receipt .= 'Sales taxes: ' . number_format($sales_tax, 2);
-  $receipt .= ' Total: ' . number_format($total, 2);
-
-  return $receipt;
-}
-
-/**
- * Extracts products form the Shopping basket.
- *
- * @param  string $shopping_basket The shopping basket. It has the following format:
+ * @param  string $input The input with the following format:
  *         '1 imported box of chocolates at 10.00 1 imported bottle of perfume at 47.50'
- * @return sales_taxes_product[] A list with the products
+ * @return sales_taxes_shopping_basket The shopping basket
  */
-function sales_taxes_extract_products($shopping_basket) {
-  $products = [];
+function _sales_taxes_extract_shopping_basket($input) {
+  preg_match_all('/(\d+) (imported )*([\w ]+) at (\d+\.\d+)[ ]*/', $input, $matches);
 
-  preg_match_all('/(\d+) (imported )*([\w ]+) at (\d+\.\d+)[ ]*/', $shopping_basket, $matches);
-  $total_products = sizeof($matches[0]);
-
-  for ($i=0; $i<$total_products; $i++) {
+  for ($i=0; $i<sizeof($matches[0]); $i++) {
     $quantity = $matches[1][$i];
+
     $imported = !empty($matches[2][$i]);
     $product_name = $matches[3][$i];
     $price = $matches[4][$i];
 
-    $products[$i] = new sales_taxes_product($product_name, $price, $imported, $quantity);
+    $products[$i] = new sales_taxes_product($product_name, $price, $imported);
+    $quantities[$i] = $quantity;
   }
 
-  return $products;
+  return empty($products) ? false : new sales_taxes_shopping_basket($products, $quantities);
 }

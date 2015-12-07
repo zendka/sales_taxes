@@ -1,6 +1,8 @@
 <?php
 
 require_once('sales_taxes_product.inc');
+require_once('sales_taxes_shopping_basket.inc');
+require_once('sales_taxes_calculator.inc');
 
 class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
   public static function getInfo() {
@@ -13,47 +15,47 @@ class SalesTaxesUnitTestCase extends DrupalUnitTestCase {
 
   function testBasicSalesTaxOnA30DollarsCDis3() {
     $product = new sales_taxes_product('CD', 30);
-    $this->assertEqual($product->get_basic_sales_tax(), 3);
+    $this->assertEqual(sales_taxes_calculator::get_basic_sales_tax($product), 3);
   }
 
   function testBasicSalesTaxOnA20DollarsBookis0() {
     $product = new sales_taxes_product('book', 20);
-    $this->assertEqual($product->get_basic_sales_tax(), 0);
+    $this->assertEqual(sales_taxes_calculator::get_basic_sales_tax($product), 0);
   }
 
   function testImportDutyOnA40DollarsImportedCDis2() {
     $product = new sales_taxes_product('CD', 40, true);
-    $this->assertEqual($product->get_import_duty(), 2);
+    $this->assertEqual(sales_taxes_calculator::get_import_duty($product), 2);
   }
 
   function testImportDutyOnA40DollarsCDis0() {
     $product = new sales_taxes_product('CD', 40);
-    $this->assertEqual($product->get_import_duty(), 0);
+    $this->assertEqual(sales_taxes_calculator::get_import_duty($product), 0);
   }
 
   function testTotalSalesTaxOnA40DollarsImportedCDis6() {
     $product = new sales_taxes_product('CD', 40, true);
-    $this->assertEqual($product->get_total_sales_tax(), 6);
+    $this->assertEqual(sales_taxes_calculator::get_total_sales_tax($product), 6);
   }
 
   function testTotalSalesTaxOnA40DollarsImportedBookIs2() {
     $product = new sales_taxes_product('book', 40, true);
-    $this->assertEqual($product->get_total_sales_tax(), 2);
+    $this->assertEqual(sales_taxes_calculator::get_total_sales_tax($product), 2);
   }
 
   function testTotalSalesTaxOnA40DollarsCDis4() {
     $product = new sales_taxes_product('CD', 40);
-    $this->assertEqual($product->get_total_sales_tax(), 4);
+    $this->assertEqual(sales_taxes_calculator::get_total_sales_tax($product), 4);
   }
 
   function testTotalSalesTaxOnA47_50DollarsImportedCDis54_65() {
     $product = new sales_taxes_product('CD', 47.50, true);
-    $this->assertEqual($product->get_total_sales_tax(), '7.15');
+    $this->assertEqual(sales_taxes_calculator::get_total_sales_tax($product), '7.15');
   }
 
   function testTotalSalesTaxOnA47_50DollarsBookIs0() {
     $product = new sales_taxes_product('book', 47.50);
-    $this->assertEqual($product->get_total_sales_tax(), 0);
+    $this->assertEqual(sales_taxes_calculator::get_total_sales_tax($product), 0);
   }
 }
 
